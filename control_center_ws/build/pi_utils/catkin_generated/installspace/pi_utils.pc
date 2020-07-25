@@ -1,0 +1,8 @@
+prefix=/home/geffen-pi/sparrowhawk/control_center_ws/install
+
+Name: pi_utils
+Description: Description of pi_utils
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
