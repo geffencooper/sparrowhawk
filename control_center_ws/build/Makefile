@@ -285,6 +285,19 @@ gtest/fast:
 .PHONY : gtest/fast
 
 #=============================================================================
+# Target rules for targets named talker
+
+# Build rule for target.
+talker: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 talker
+.PHONY : talker
+
+# fast build rule for target.
+talker/fast:
+	$(MAKE) -f pi_utils/CMakeFiles/talker.dir/build.make pi_utils/CMakeFiles/talker.dir/build
+.PHONY : talker/fast
+
+#=============================================================================
 # Target rules for targets named rosgraph_msgs_generate_messages_lisp
 
 # Build rule for target.
@@ -566,6 +579,7 @@ help:
 	@echo "... gmock"
 	@echo "... gtest_main"
 	@echo "... gtest"
+	@echo "... talker"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
 	@echo "... rosgraph_msgs_generate_messages_eus"
 	@echo "... geometry_msgs_generate_messages_lisp"

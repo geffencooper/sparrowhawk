@@ -408,11 +408,12 @@ clean: gtest/googlemock/gtest/CMakeFiles/gtest.dir/clean
 # Directory level rules for directory pi_utils
 
 # Convenience name for "all" pass in the directory.
-pi_utils/all:
+pi_utils/all: pi_utils/CMakeFiles/talker.dir/all
 
 .PHONY : pi_utils/all
 
 # Convenience name for "clean" pass in the directory.
+pi_utils/clean: pi_utils/CMakeFiles/talker.dir/clean
 pi_utils/clean: pi_utils/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean
 pi_utils/clean: pi_utils/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
 pi_utils/clean: pi_utils/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/clean
@@ -440,6 +441,43 @@ pi_utils/clean: pi_utils/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clea
 pi_utils/preinstall:
 
 .PHONY : pi_utils/preinstall
+
+#=============================================================================
+# Target rules for target pi_utils/CMakeFiles/talker.dir
+
+# All Build rule for target.
+pi_utils/CMakeFiles/talker.dir/all:
+	$(MAKE) -f pi_utils/CMakeFiles/talker.dir/build.make pi_utils/CMakeFiles/talker.dir/depend
+	$(MAKE) -f pi_utils/CMakeFiles/talker.dir/build.make pi_utils/CMakeFiles/talker.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/geffen-pi/sparrowhawk/control_center_ws/build/CMakeFiles --progress-num=12,13 "Built target talker"
+.PHONY : pi_utils/CMakeFiles/talker.dir/all
+
+# Include target in all.
+all: pi_utils/CMakeFiles/talker.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+pi_utils/CMakeFiles/talker.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/geffen-pi/sparrowhawk/control_center_ws/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 pi_utils/CMakeFiles/talker.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/geffen-pi/sparrowhawk/control_center_ws/build/CMakeFiles 0
+.PHONY : pi_utils/CMakeFiles/talker.dir/rule
+
+# Convenience name for target.
+talker: pi_utils/CMakeFiles/talker.dir/rule
+
+.PHONY : talker
+
+# clean rule for target.
+pi_utils/CMakeFiles/talker.dir/clean:
+	$(MAKE) -f pi_utils/CMakeFiles/talker.dir/build.make pi_utils/CMakeFiles/talker.dir/clean
+.PHONY : pi_utils/CMakeFiles/talker.dir/clean
+
+# clean rule for target.
+clean: pi_utils/CMakeFiles/talker.dir/clean
+
+.PHONY : clean
 
 #=============================================================================
 # Target rules for target pi_utils/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir

@@ -56,18 +56,6 @@ CMAKE_BINARY_DIR = /home/geffen-pi/sparrowhawk/control_center_ws/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
-
 # Special rule for the target install/local
 install/local: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
@@ -123,6 +111,18 @@ test/fast: test
 
 .PHONY : test/fast
 
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
+
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
@@ -166,6 +166,21 @@ preinstall/fast:
 depend:
 	cd /home/geffen-pi/sparrowhawk/control_center_ws/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
+
+# Convenience name for target.
+pi_utils/CMakeFiles/talker.dir/rule:
+	cd /home/geffen-pi/sparrowhawk/control_center_ws/build && $(MAKE) -f CMakeFiles/Makefile2 pi_utils/CMakeFiles/talker.dir/rule
+.PHONY : pi_utils/CMakeFiles/talker.dir/rule
+
+# Convenience name for target.
+talker: pi_utils/CMakeFiles/talker.dir/rule
+
+.PHONY : talker
+
+# fast build rule for target.
+talker/fast:
+	cd /home/geffen-pi/sparrowhawk/control_center_ws/build && $(MAKE) -f pi_utils/CMakeFiles/talker.dir/build.make pi_utils/CMakeFiles/talker.dir/build
+.PHONY : talker/fast
 
 # Convenience name for target.
 pi_utils/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule:
@@ -467,18 +482,46 @@ rosgraph_msgs_generate_messages_cpp/fast:
 	cd /home/geffen-pi/sparrowhawk/control_center_ws/build && $(MAKE) -f pi_utils/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make pi_utils/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build
 .PHONY : rosgraph_msgs_generate_messages_cpp/fast
 
+src/talker.o: src/talker.cpp.o
+
+.PHONY : src/talker.o
+
+# target to build an object file
+src/talker.cpp.o:
+	cd /home/geffen-pi/sparrowhawk/control_center_ws/build && $(MAKE) -f pi_utils/CMakeFiles/talker.dir/build.make pi_utils/CMakeFiles/talker.dir/src/talker.cpp.o
+.PHONY : src/talker.cpp.o
+
+src/talker.i: src/talker.cpp.i
+
+.PHONY : src/talker.i
+
+# target to preprocess a source file
+src/talker.cpp.i:
+	cd /home/geffen-pi/sparrowhawk/control_center_ws/build && $(MAKE) -f pi_utils/CMakeFiles/talker.dir/build.make pi_utils/CMakeFiles/talker.dir/src/talker.cpp.i
+.PHONY : src/talker.cpp.i
+
+src/talker.s: src/talker.cpp.s
+
+.PHONY : src/talker.s
+
+# target to generate assembly for a file
+src/talker.cpp.s:
+	cd /home/geffen-pi/sparrowhawk/control_center_ws/build && $(MAKE) -f pi_utils/CMakeFiles/talker.dir/build.make pi_utils/CMakeFiles/talker.dir/src/talker.cpp.s
+.PHONY : src/talker.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... install/strip"
 	@echo "... install/local"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... test"
+	@echo "... install/strip"
+	@echo "... talker"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
 	@echo "... rosgraph_msgs_generate_messages_eus"
 	@echo "... geometry_msgs_generate_messages_lisp"
@@ -500,6 +543,9 @@ help:
 	@echo "... std_msgs_generate_messages_lisp"
 	@echo "... roscpp_generate_messages_nodejs"
 	@echo "... rosgraph_msgs_generate_messages_cpp"
+	@echo "... src/talker.o"
+	@echo "... src/talker.i"
+	@echo "... src/talker.s"
 .PHONY : help
 
 
