@@ -1,5 +1,7 @@
+************************ bashrc ***************************
 *Add these lines to the bottom of ~/.bashrc on the laptop
 
+#ROS CONFIG
 source /opt/ros/melodic/setup.bash
 source ~/sparrowhawk/home_base_ws/devel/setup.bash
 export ROS_IP=192.168.0.127
@@ -7,4 +9,10 @@ export ROS_IP=192.168.0.127
 
 *Add these lines to the bottom of ~/.bashrc on the pi
 
+# ROS CONFIG
+source /opt/ros/melodic/setup.bash
+source ~/sparrowhawk/control_center_ws/devel/setup.bash
+export ROS_MASTER_URI=http://192.168.0.127:11311
+export ROS_IP=192.168.0.129
 
+sudo pigpiod
