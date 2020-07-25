@@ -1,4 +1,3 @@
-************************ bashrc ***************************
 *Add these lines to the bottom of ~/.bashrc on the laptop
 
 #ROS CONFIG
