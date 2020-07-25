@@ -1,0 +1,10 @@
+*Add these lines to the bottom of ~/.bashrc on the laptop
+
+source /opt/ros/melodic/setup.bash
+source ~/sparrowhawk/home_base_ws/devel/setup.bash
+export ROS_IP=192.168.0.127
+
+
+*Add these lines to the bottom of ~/.bashrc on the pi
+
+
