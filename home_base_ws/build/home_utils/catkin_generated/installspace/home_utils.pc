@@ -1,0 +1,8 @@
+prefix=/home/geffen/sparrowhawk/home_base_ws/install
+
+Name: home_utils
+Description: Description of home_utils
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

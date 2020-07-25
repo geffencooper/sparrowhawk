@@ -131,6 +131,7 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/geffen/sparrowhawk/home_base_ws/build/gtest/cmake_install.cmake")
+  include("/home/geffen/sparrowhawk/home_base_ws/build/home_utils/cmake_install.cmake")
 
 endif()
 
