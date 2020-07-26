@@ -1,0 +1,100 @@
+
+PART 1: summary/explanations
+
+										****What is ROS/Why use it?****
+
+--ros is a "meta operating system" (works on top of a traditional OS like linux)
+--it provides a structured communicationlayer above the host OS for multiple computers,
+ programs, devices, etc to communicate
+--the main purpose is to provide a standard framework for robot applications so that
+ developers do not need to reinvent the wheel and the open source community can contribute 
+ through "packages" (explained later)
+--the main things that ROS provides is core communication tools and a set of libraries that are
+ easy to use and create
+
+										
+										
+										****ROS core and communication tools****
+
+--using ROS you can divide your code into "packages" that contain small programs called "nodes"
+--these programs or "nodes" communicate with each other in three ways: topics, services, actions
+	--TOPICS
+		-topics are used to stream data between nodes
+		-for a example a node may be a program that interacts with a sensors, this node can
+		 "publish" the sensor values as a "topic" and other nodes can "subscribe" to this topic
+		 and also receive the data stream
+	--SERVICES
+	  -services are used for client server communication between nodes
+		-for example, one node may request information from another node
+	--ACTIONS
+	  -actions provide asynchronous client server communication between nodes
+		-a client can send a request that may take a long time and then monitor the state of the
+		server and cancel the request at any time
+--something to note about ROS is that a node written in C++ and python can easily communicate
+  because the communication layer is under the language layer and uses standard TCP/IP
+
+
+														****ROS libraries****
+
+--there are many ROS libraries provided that you can easily incorporate into a project,
+  many of the libraries are open source from other people in the commmunity
+--these libraries are organized in packages which will be explained later
+
+															
+															**** NODE ****
+
+--everything in ROS is made with components called nodes
+--a robotics application can be very large and complex so we want to keep it organized
+  and standardized by making it modular and dividing into seperate parts called nodes
+--each node is responsible for one or more tasks and will need to send and receive
+  information from other nodes
+
+
+
+												**** ROS Environment ****
+
+--there are many different ROS tools, files, and variables so it can be quite
+  difficult and complicated to remmber and access all them with the command line
+--ROS makes this easier with a set of ROS command line tools and a "ROS environment"
+--there are files in our workspaces called "setup.bash" and when we source them
+  all the ROS environment variables get set so we can access tools and commands
+	from anywhere in our file system
+--we added a source command to the bashrc file so that every terminal we open up
+  will already have the ROS environmnet variables set up
+--these environment setup files come from ROS packages, catkin packages/workspaces
+
+
+
+										**** CATKIN/ROS workspace ****
+
+--a catkin workspace is a folder where you modify, build, and install catkin packages
+--inside the catkin folder there are subfolders, namely "src" "build" "devel" "install"
+	SRC Space
+	--this folder contains the source code of the catkin packages
+	--the src folder has several subfolders which each contain catkin packages
+	--for example a package used for keyboard input may be called "keyPkg" and would
+	  be a folder under the source folder
+	--each catkin package has source code, CMake listsm package.xml and other necessary
+	  information to use the package
+	BUILD Space
+	--this is where all the build information about the src files is stored like make
+  DEVEL Space
+  --this is where build targets are placed prior to installation
+
+
+
+
+
+PART 2: ROS tools
+
+rosinstall: a command line tool that makes it easy to install/setup ros packages
+rosdep: enables you to easily install system dependencies for source you want to compile
+
+
+
+
+PART 3: syntax
+
+check that ROS environment is properly set up/sourced: "$ printenv | grep ROS"
+source your ROS environment: "$ source /opt/ros/<distro>/setup.bash" (distro=melodic)
+
