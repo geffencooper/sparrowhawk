@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import rospy
+import time
 from std_msgs.msg import String
 from geometry_msgs.msg import Point
 from servo_controller import ServoController
