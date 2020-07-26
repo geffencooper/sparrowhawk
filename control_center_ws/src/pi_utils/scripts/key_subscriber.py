@@ -19,11 +19,9 @@ def emergency_callback(msg):
         drive_servo.backward(100)
         time.sleep(1500)
         drive_servo.pause()
-        global stop
         stop = True
     elif msg.data == "RESUME":
         print("==============RESUME==============")
-        global stop
         stop = False
 
 def key_state_callback(msg):
