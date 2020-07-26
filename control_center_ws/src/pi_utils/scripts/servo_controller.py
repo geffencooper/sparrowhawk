@@ -7,7 +7,8 @@ import time
 pi = pigpio.pi()
 
 class ServoController:
-  def __init__(self, pwm_pin, cal_file = "", minimum=0, center=0, maximum=0):\
+  def __init__(self, pwm_pin, cal_file = "", minimum=0, center=0, maximum=0):
+     
     self.pwm_pin = pwm_pin 
 
     # initialize servo minimum, center, and maximum positions based on duty cycle
@@ -83,20 +84,20 @@ class ServoController:
     dc = (float)(input("DC(~1500):"))
     
     while(dc > 0):
-        self.raw(dc)
-        time.sleep(1)
-        self.center = dc
-        dc = (float)(input("DC:"))
+      self.raw(dc)
+      time.sleep(1)
+      self.center = dc
+      dc = (float)(input("DC:"))
     print("CENTER = ", self.center)
 
     print("\nMAXIMUM:")
     dc = (float)(input("DC(~1500-2500): "))
     
     while(dc > 0):
-        self.raw(dc)
-        time.sleep(1)
-        self.maximum = dc
-        dc = (float)(input("DC:"))
+      self.raw(dc)
+      time.sleep(1)
+      self.maximum = dc
+      dc = (float)(input("DC:"))
     print("MAXIMUM = ", self.maximum)
 
     print("\n\n CALIBRATION COMPLETE")
