@@ -57,6 +57,6 @@ def key_state_callback(msg):
 if __name__ == '__main__':
     rospy.init_node('manual_controller') # the manual controller node subscribes to the key_publisher/emergency topics
 
-    rospy.Subscriber('key_publisher', String, key_state_callback)
+    rospy.Subscriber('keys_pressed', String, key_state_callback)
     rospy.Subscriber('emergency', String, emergency_callback)
     rospy.spin()
