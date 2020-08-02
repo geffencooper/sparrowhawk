@@ -5,6 +5,7 @@ import rospy
 from std_msgs.msg import String
 from std_msgs.msg import Float32
 
+mapping = False
 
 def data_getter():
      # a node to publish data from arduino
@@ -16,7 +17,7 @@ def data_getter():
     
     rate = rospy.Rate(10)
     
-    # connect to arduino through USB seria;
+    # connect to arduino through USB serial
     ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
     ser.flush()
     while not rospy.is_shutdown():
@@ -26,22 +27,24 @@ def data_getter():
         if data != '':
             if data == 'initialized': # only continue if sensors initialized correctly
                 ser.write(str.encode('startmapping\n'))
-                global mapping
                 mapping = True
             elif data == 'HC': # ultrasonic sensor data next
                 data = ser.readline().decode('ascii').rstrip()
-                if float(data) < 20:
+                print(data)
+                if float(data) < 20: # if get to close to an object then stop
                     if mapping == True:
                         emgncy_pub.publish("STOP")
-                        print("Stopping now-----------------------------")
+                        print("LAPTOP: SENDING STOP")
                         ser.write(str.encode('stopmapping\n'))
                         mapping = False
-            elif data == 'TOF':
-                data = ser.readline().decode('ascii').rstrip()
-                print(data)
-                if mapping == False:
+                    else:
+                        print("---BACK UP---")
+                elif float(data) > 20 and mapping == False:
                     mapping = True
                     ser.write(str.encode('startmapping\n'))
+            elif data == 'TOF' and mapping == True:
+                data = ser.readline().decode('ascii').rstrip()
+                print(data)
                 data_pub.publish(data)
 
 
