@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 
+# this script publishes keystrokes from the laptop to a topic
+# called 'keys_pressed' from the node 'key_publisher'
+
 import rospy
 from std_msgs.msg import String
-
 
 from pynput.keyboard import Key, Listener, Controller
 from pynput import keyboard
@@ -18,14 +20,19 @@ COMBINATION7 = {keyboard.Key.right}
 COMBINATION8 = {keyboard.Key.up}
 controller = Controller()
 
-rospy.init_node('key_publisher', anonymous=True) # node
-pub = rospy.Publisher('keys_pressed', String, queue_size=10) # topic publishing to
+# the ros node
+rospy.init_node('key_publisher', anonymous=True)
+
+# the topic publishing to
+pub = rospy.Publisher('keys_pressed', String, queue_size=10)
 
 rate = rospy.Rate(10)
 
-keys_pressed = set() # create an empty set for the keys pressed
+# create an empty set for the currently pressed keys to be stored in
+keys_pressed = set()
 
-def on_press(key): # when a key is pressed down, add it to the set, determine the combo pressed
+# when a key is pressed down, add it to the set, determine the combi pressed
+def on_press(key):
     keys_pressed.add(key)
     if all(k in keys_pressed for k in COMBINATION1):
         pub.publish("UR")
