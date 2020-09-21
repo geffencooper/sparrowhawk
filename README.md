@@ -11,12 +11,6 @@ This is the overarching repo for the "sparrowhawk" project, a robot car with sim
     * All decision making is executed from the pi which has direct control of the motor servos
 ## Using the Repo
 In this project there are two different computers, the laptop and the Raspberry Pi so one must be assigned as the "ROS master" (In this case the laptop is the master).
-* When entering these workspaces the first step is to overlay them onto your current environment by executing the following command from the top level directory
-```
-source devel/setup.bash
-```
+* Within each workspace src folder we have **ros packages** which are the software building blocks that contain all the useful tools we need
+* Within **home_base_ws** we have the **home_utils** package which contains all the ros nodes, scripts, and files needed to communicate with the robot
 
-Within each workspace src folder we have ros packages which are the software building blocks that contain all the useful tools we need and built\
-Within home_base_ws we have the home_utils package which contains all the ros nodes, scripts, and files needed to communicate with the robot\
-
-The ROS master will be the laptop
