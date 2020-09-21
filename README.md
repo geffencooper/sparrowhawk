@@ -1,5 +1,6 @@
 # sparrowhawk
-This is the overarching repo for the "sparrowhawk" project, a robot car with simple mapping and autonomous driving capabilities.\ *Sparrowhawk is the name of the rc car used for the robot's chassis*
+This is the overarching repo for the "sparrowhawk" project, a robot car with simple mapping and autonomous driving capabilities.  
+*Sparrowhawk is the name of the rc car used for the robot's chassis*
 ## Repo Structure
 * At the top level of the repo there are generic files including documentation and arduino code
 * There are two subdirectories within the top level for the two components of the project. Each of these directories is a **ros workspace**
