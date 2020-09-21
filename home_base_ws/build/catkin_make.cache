@@ -1,2 +1,0 @@
-home_utils
--DCATKIN_DEVEL_PREFIX=/home/geffen/sparrowhawk/home_base_ws/devel -DCMAKE_INSTALL_PREFIX=/home/geffen/sparrowhawk/home_base_ws/install -G Unix Makefiles

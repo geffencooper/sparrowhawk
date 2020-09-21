@@ -1,2 +1,0 @@
-pi_utils
--DCATKIN_DEVEL_PREFIX=/home/geffen-pi/sparrowhawk/control_center_ws/devel -DCMAKE_INSTALL_PREFIX=/home/geffen-pi/sparrowhawk/control_center_ws/install -G Unix Makefiles
