@@ -1,4 +1,5 @@
 # sparrowhawk
+This is the overarching repo for the "sparrowhawk" project, an robot car with simple mapping and autonomy capabilities. (*Sparrowhawk is the name of the rc car used for the robot chassis*) 
 There is one overarching GitHub project repo called sparrowhawk (name of the rc car)\
 -There are shared files in the top level of the repo\
 -There are two subdirectories which are each a ros workspace\
