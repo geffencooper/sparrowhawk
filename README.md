@@ -1,5 +1,5 @@
 # sparrowhawk
-This is the overarching repo for the "sparrowhawk" project, a robot car with simple mapping and autonomous driving capabilities. *Sparrowhawk is the name of the rc car used for the robot's chassis*
+This is the overarching repo for the "sparrowhawk" project, a robot car with simple mapping and autonomous driving capabilities.\ *Sparrowhawk is the name of the rc car used for the robot's chassis*
 ## Repo Structure
 * At the top level of the repo there are generic files including documentation and arduino code
 * There are two subdirectories within the top level for the two components of the project. Each of these directories is a **ros workspace**
@@ -12,9 +12,9 @@ This is the overarching repo for the "sparrowhawk" project, a robot car with sim
 ## Using the Repo
 In this project there are two different computers, the laptop and the Raspberry Pi so one must be assigned as the "ROS master" (In this case the laptop is the master).
 * When entering these workspaces the first step is to overlay them onto your current environment by executing the following command from the top level directory
-'''
+```
 source devel/setup.bash
-'''
+```
 
 Within each workspace src folder we have ros packages which are the software building blocks that contain all the useful tools we need and built\
 Within home_base_ws we have the home_utils package which contains all the ros nodes, scripts, and files needed to communicate with the robot\
