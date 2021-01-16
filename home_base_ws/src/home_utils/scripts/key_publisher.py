@@ -3,6 +3,7 @@
 # this script publishes keystrokes from the laptop to a topic
 # called 'keys_pressed' from the node 'key_publisher'
 
+import os
 import rospy
 from std_msgs.msg import String
 
@@ -59,7 +60,8 @@ def on_press(key):
         pub.publish("U")
         print('UP')
     if key == keyboard.Key.esc: # stop the topic with the esc key
-        listener.stop()
+       os.system('stty echo')
+       listener.stop()
 
 
 def on_release(key): # when a key is released, publish "pause", remove it from the set
@@ -81,6 +83,7 @@ def on_release(key): # when a key is released, publish "pause", remove it from t
 
 if __name__ == '__main__':
     try:
+      os.system('stty -echo')
       with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
         listener.join()
     except rospy.ROSInterruptException:
