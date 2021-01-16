@@ -1,5 +1,6 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
+#include "geometry_msgs/Point.h"
 
 extern "C"{
 #include <stdio.h>
@@ -27,17 +28,29 @@ int drive;
 /**
  * This tutorial demonstrates simple receipt of messages over the ROS system.
  */
+
+void tracker_callback(const geometry_msgs::Point::ConstPtr& p)
+{
+          ROS_INFO("X: [%f]", p->x);
+          ROS_INFO("Y: [%f]", p->y);
+          ROS_INFO("Z: [%f]", p->z);
+	  motor_msg.steering_value = (p->x)*100;
+	  uh->tx_msg((uint8_t*)(&motor_msg), sizeof(TX_RPI_DATA));
+	  uh->tx_msg((uint8_t*)(&motor_msg), sizeof(TX_RPI_DATA));
+	  usleep(10000);
+}
+
 void key_press_callback(const std_msgs::String::ConstPtr& msg)
 {
   if(msg->data == "R")
   {
   	  ROS_INFO("I heard: [%s]", msg->data.c_str());
-	  motor_msg.steering_value = -90;
+	  motor_msg.steering_value = 90;
   }
   else if(msg->data == "L")
   {
   	  ROS_INFO("I heard: [%s]", msg->data.c_str());
-	  motor_msg.steering_value = 90;
+	  motor_msg.steering_value = -90;
   }
   else if(msg->data == "PT")
   {
@@ -47,13 +60,13 @@ void key_press_callback(const std_msgs::String::ConstPtr& msg)
   else if(msg->data == "UL")
   {
   	  ROS_INFO("I heard: [%s]", msg->data.c_str());
-	  motor_msg.steering_value = 90;
+	  motor_msg.steering_value = -90;
 	  motor_msg.drive_value = 35;
   }
   else if(msg->data == "UR")
   {
   	  ROS_INFO("I heard: [%s]", msg->data.c_str());
-	  motor_msg.steering_value = -90;
+	  motor_msg.steering_value = 90;
 	  motor_msg.drive_value = 35;
   }
   else if(msg->data == "PD")
@@ -64,13 +77,13 @@ void key_press_callback(const std_msgs::String::ConstPtr& msg)
   else if(msg->data == "DL")
   {
   	  ROS_INFO("I heard: [%s]", msg->data.c_str());
-	  motor_msg.steering_value = 90;
+	  motor_msg.steering_value = -90;
 	  motor_msg.drive_value = -35;
   }
   else if(msg->data == "DR")
   {
   	  ROS_INFO("I heard: [%s]", msg->data.c_str());
-	  motor_msg.steering_value = -90;
+	  motor_msg.steering_value = 90;
 	  motor_msg.drive_value = -35;
   }
   else if(msg->data == "D")
@@ -150,6 +163,7 @@ int main(int argc, char **argv)
    * away the oldest ones.
    */
   ros::Subscriber sub = n.subscribe("keys_pressed", 1000, key_press_callback);
+  ros::Subscriber sub2 = n.subscribe("tracker", 1000, tracker_callback);
 
   /**
    * ros::spin() will enter a loop, pumping callbacks.  With this version, all
