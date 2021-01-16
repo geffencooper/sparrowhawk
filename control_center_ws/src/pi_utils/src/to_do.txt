@@ -1,0 +1,6 @@
+Completed:
+-stable and fast UART comms
+-can see all sensor data packets
+
+To Do:
+-link to ROS through python binding or C++ node
