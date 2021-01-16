@@ -209,6 +209,9 @@ include_directories(
 add_executable(talker src/talker.cpp)
 target_link_libraries(talker ${catkin_LIBRARIES})
 
+add_executable(stm_com src/stm_com.cpp src/UartHelper.cpp)
+target_link_libraries(stm_com ${catkin_LIBRARIES} wiringPi crypt rt)
+
 catkin_install_python(PROGRAMS scripts/talker.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
