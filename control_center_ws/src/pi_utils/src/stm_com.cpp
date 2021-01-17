@@ -24,11 +24,12 @@ bool result;
 int count;
 int steer;
 int drive;
+geometry_msgs::Point::ConstPtr point;
 
 /**
  * This tutorial demonstrates simple receipt of messages over the ROS system.
  */
-enum car_state
+enum CarState
 {
 	FORWARD = 0, // in view but far
 	BACKWARD, // out of view and reversing
@@ -38,7 +39,7 @@ enum car_state
 	LOST // object outside view and tried search, wait till reenters FOV
 };
 
-enum object_state
+enum ObjectState
 {
 	IN_FOV_FAR = 0, // can see the object but far so drive to it
 	IN_FOV_CLOSE, // in fov, stay, equilibrium
@@ -47,39 +48,47 @@ enum object_state
 
 void follow_object()
 {
-	motor_msg.steering_value = 100*p->x;
+	motor_msg.steering_value = 100*point->x;
 	motor_msg.drive_value = 60;
 }
 
-#define BREAK_PERIOD 20 // reverse for 50 frames
-#define OUT_OF_VIEW_PERIOD 100 // wait 100 frames before reversing
-#define BACKWARD_PERIOD 50 // reverse for 100 frames
+#define BREAK_PERIOD 5 // reverse for 50 frames
+#define OUT_OF_VIEW_PERIOD 5 // wait 100 frames before reversing
+#define BACKWARD_PERIOD 3 // reverse for 100 frames
 void tracker_callback(const geometry_msgs::Point::ConstPtr& p)
 {
 	  static float last_z = 0;
 	  static int oov_count = 0;
-	  static int rev_count = 0;
+	  static int backward_count = 0;
 	  static int break_count = 0;
-	  static car_state = LOST;
-	  static object_state = OUT_OF_FOV;
+	  static CarState car_state = LOST;
+	  static ObjectState object_state = OUT_OF_FOV;
+
+	  point = p;
 
           ROS_INFO("X: [%f]", p->x);
           ROS_INFO("Y: [%f]", p->y);
-          ROS_INFO("Z: [%f]", p->z);
+          ROS_INFO("Z: [%f]  last_z: [%f]", p->z, last_z);
 	  
 	  // first determine the object state
 	  // object area same so left the frame
+	 // float delta_z1 = p->z-last_z;
+	 // float delta_z2 = last_z-p->z;
+	 // if(((delta_z1 < 0.01) && delta_z1 > -0.01) || ((delta_z2< 0.01) && delta_z2 > -0.01))
 	  if(p->z == last_z)
 	  {
+		  ROS_INFO("OBJECT STATE: OUT OF VIEW");
 		  object_state = OUT_OF_FOV;
 	  }
           // object area outside threshold
 	  else if((p->z > 100) && (p->z < 100000))
 	  {
+		ROS_INFO("OBJECT STATE: IN FOV FAR");
 		object_state = IN_FOV_FAR;
 	  }
 	  else if(p->z > 100000)
 	  {
+		  ROS_INFO("OBJECT_STATE: IN FOV CLOSE");
 		  object_state = IN_FOV_CLOSE;
 	  }
 
@@ -87,7 +96,7 @@ void tracker_callback(const geometry_msgs::Point::ConstPtr& p)
 	  switch(car_state)
 	  {
 		  // equilibrium state
-		  case(STOPPED)
+		  case(STOPPED):
 		  {
 			  // object moved away, follow it
 			  if(object_state == IN_FOV_FAR)
@@ -98,17 +107,21 @@ void tracker_callback(const geometry_msgs::Point::ConstPtr& p)
 			  // lost object, enter a waiting state
 			  else if(object_state == OUT_OF_FOV)
 			  {
-				  car_state == OOV_WAIT;
+				  car_state = OOV_WAIT;
+			  }
+			  else if(object_state == IN_FOV_CLOSE)
+			  {
+				  motor_msg.steering_value = 100*p->x;
 			  }
 			  break;
 		  }
 		  // following an object
-		  case(FORWARD)
+		  case(FORWARD):
 		  {
 			  // if the object gets to equilibrium or lost then break
 			  if((object_state == IN_FOV_CLOSE) || (object_state == OUT_OF_FOV))
 			  {
-				  car_state = BREAK;
+				  car_state = BREAKING;
 				  motor_msg.drive_value = -20;
 			  }
 			  // otherwise keep following and update steering
@@ -119,10 +132,10 @@ void tracker_callback(const geometry_msgs::Point::ConstPtr& p)
 			  break;
 		  }
 		  // breaking state
-		  case(BREAK)
+		  case(BREAKING):
 		  {
 			  // reverse for small period
-			  if(break_count < BREAK_PERIOD)
+			  if(break_count <= BREAK_PERIOD)
 			  {
 				  break_count++;
 			  }
@@ -136,51 +149,69 @@ void tracker_callback(const geometry_msgs::Point::ConstPtr& p)
 			  break;
 		  }
 		  // when object is lost enter a waiting period
-		  case(OOV_WAIT)
+		  case(OOV_WAIT):
 		  {
-			  // pause for small period, object may return
-			  if(oov_count < OUT_OF_VIEW_PERIOD)
-			  {
-				  oov_count++;
-			  }
 			  // if period passed then try to go backward to increase FOV
-			  else if(oov_count > OUT_OF_VIEW_PERIOD)
+			  if(oov_count > OUT_OF_VIEW_PERIOD)
 			  {
 				  oov_count = 0;
 				  car_state = BACKWARD;
-				  motor_msg.drive_value = -45;
+				  ROS_INFO("GOING BACKWARD----------------");
+				  motor_msg.drive_value = -50;
 			  }
 			  // if object returned to FOV, follow it
 			  else if(object_state == IN_FOV_FAR)
 			  {
+				  oov_count = 0;
 				  car_state = FORWARD;
 				  follow_object();
 			  }
+			  // if object retturned to FOV and close
+			  else if(object_state == IN_FOV_CLOSE)
+			  {
+				  oov_count = 0;
+				  car_state = STOPPED;
+			  }
+			  // pause for small period, object may return
+			  else if(oov_count <= OUT_OF_VIEW_PERIOD)
+			  {
+				  ROS_INFO("wait count [%i]", oov_count);
+				  oov_count++;
+			  }
 			  break;
 		  }
-		  case(BACKWARD)
+		  case(BACKWARD):
 		  {
-			  // reverse for small period, change this if add another sensor for reverse
-			  if(backward_count < BACKWARD_PERIOD)
-			  {
-				  backward_count++;
-			  }
 			  // if period passed then enter a lost state
-			  else if(backward_count > BACKWARD_PERIOD)
+			  if(backward_count > BACKWARD_PERIOD)
 			  {
 				  backward_count = 0;
 				  motor_msg.steering_value = 0;
 				  motor_msg.drive_value = 0;
 				  car_state = LOST;
 			  }
+			  // if returned to FOV far
 			  else if(object_state == IN_FOV_FAR)
 			  {
+				  backward_count = 0;
 				  car_state = FORWARD;
 				  follow_object();
 			  }
+			  else if(object_state == IN_FOV_CLOSE)
+			  {
+				  car_state = STOPPED;
+				  motor_msg.drive_value = 0;
+				  backward_count = 0;
+			  }
+			  // reverse for small period, change this if add another sensor for reverse
+			  else if(backward_count <= BACKWARD_PERIOD)
+			  {
+				  ROS_INFO("backward count [%i]", backward_count);
+				  backward_count++;
+			  }
 			  break;
 		  }
-		  case(LOST)
+		  case(LOST):
 		  {
 			  if(object_state == IN_FOV_FAR)
 			  {
@@ -189,10 +220,11 @@ void tracker_callback(const geometry_msgs::Point::ConstPtr& p)
 			  }
 			  else if(object_state == IN_FOV_CLOSE)
 			  {
-				  object_state = STOPPED;
+				  car_state = STOPPED;
 				  motor_msg.drive_value = 0;
-				  motor_msg.steering_value = 100*=->x
+				  motor_msg.steering_value = 100*p->x;
 			  }
+			  break;
 		  }
 	  }
 
@@ -209,32 +241,32 @@ void tracker_callback(const geometry_msgs::Point::ConstPtr& p)
 	  {
 		  case(FORWARD): 
 	          {
-			  ROS_INFO("STATE: FORWARD");
+			  ROS_INFO("CAR STATE: FORWARD");
 			  break;
 	          }
-		  case(REVERSE): 
+		  case(BACKWARD): 
 	          {
-			  ROS_INFO("STATE: REVERSE");
+			  ROS_INFO("CAR STATE: BACKWARD");
 			  break;
 	          }
-		  case(IN_VIEW): 
+		  case(OOV_WAIT): 
 	          {
-			  ROS_INFO("STATE: IN_VIEW");
+			  ROS_INFO("CAR STATE: OUT OF VIEW... WAITING");
 	          	  break;
 		  }
-		  case(OUT_OF_VIEW): 
+		  case(LOST): 
 	          {
-			  ROS_INFO("STATE: OUT_OF_VIEW");
+			  ROS_INFO("CAR STATE: NO OBJECT, LOST");
 			  break;
 	          }
 		  case(STOPPED): 
 	          {
-			  ROS_INFO("STATE: STOPPED");
+			  ROS_INFO("CAR STATE: STOPPED");
 			  break;
 	          }
 		  case(BREAKING): 
 	          {
-			  ROS_INFO("STATE: BREAKING");
+			  ROS_INFO("CAR STATE: BREAKING");
 			  break;
 	          }
 	  }
