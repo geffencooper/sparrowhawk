@@ -210,6 +210,7 @@ include_directories(
 add_executable(listener src/listener.cpp)
 target_link_libraries(listener ${catkin_LIBRARIES})
 
-catkin_install_python(PROGRAMS scripts/listener.py
+catkin_install_python(PROGRAMS scripts/listener.py scripts/object_tracker.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
+
