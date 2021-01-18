@@ -1,6 +1,9 @@
 # sparrowhawk
-This is the overarching repo for the "sparrowhawk" project, a robot car with simple autonomous driving capabilities.  
-*Sparrowhawk is the name of the rc car used for the robot's chassis*
+This is the overarching repo for the "sparrowhawk" project, a robot car with simple tracking capabilities.  
+*Sparrowhawk is the name of the rc car used for the robot's chassis*  
+As seen in this video the project is still a work in progress but it attempt to follow person.
+![tracking demo](video/tracking_demo.gif)  
+![car](images/car.jpg)
 ## Repo Structure
 * At the top level of the repo there are generic files including *old* arduino code. I recently have been porting the peripheral interface to STM32. The repo can be found here: https://github.com/geffencooper/STM32_peripheral_code
 * There are two subdirectories within the top level for the two components of the project. Each of these directories is a **ros workspace**
