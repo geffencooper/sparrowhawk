@@ -14,7 +14,7 @@ As seen in this GIF the project is still a work in progress but it attempts to f
     * This is where all the action happens and where the robot is directly controlled
     * All decision making is executed from the pi which controls the motors by sending messages over UART to the STM32
 ## Using the Repo  
-This shows an example workflow. Roscore is running and the two workspaces are open from the PC and RPI (over SSH).
+This shows an example workflow of controlling the robot manually using arrow keys from the laptop. Roscore is running and the two workspaces are open from the PC and RPI (over SSH).
 ![workflow](images/workflow.png)
 In this project there are two different computers, the laptop and the Raspberry Pi so one must be assigned as the "ROS master" (In this case the laptop is the master).
 * Within each workspace src folder we have **ros packages** which are the software building blocks that contain all the useful tools we need
