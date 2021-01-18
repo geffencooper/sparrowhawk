@@ -1,7 +1,7 @@
 # sparrowhawk
 This is the overarching repo for the "sparrowhawk" project, a robot car with simple tracking capabilities.  
 *Sparrowhawk is the name of the rc car used for the robot's chassis*  
-As seen in this video the project is still a work in progress but it attempt to follow person.
+As seen in this GIF the project is still a work in progress but it attempts to follow person (me in this video).
 ![tracking demo](video/tracking_demo.gif)  
 ![car](images/car.jpg)
 ## Repo Structure
